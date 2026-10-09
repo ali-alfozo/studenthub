@@ -387,12 +387,17 @@ export const en = {
     }
   },
 // ---------- AI Assistant ----------
+// ---------- AI Assistant ----------
 ai: {
   title: "AI Assistant",
   subtitle: "Ask me anything about your studies",
   clearChat: "New Chat",
   inputPlaceholder: "Type your question here...",
   inputHint: "💡 Tip: Be specific to get better answers",
+  vpnNotice: {
+    title: "To receive responses from the assistant",
+    text: "Make sure VPN is enabled before sending your question"
+  },
   welcome: {
     title: "Hello! How can I help today?",
     text: "I'm your study assistant. Ask me about time management, study techniques, or anything to help you succeed."
