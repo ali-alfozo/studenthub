@@ -41,6 +41,94 @@
   font-size: var(--text-sm);
 }
 
+/* ============================================
+   ✅ VPN NOTICE
+   ============================================ */
+
+.ai__vpn-notice {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.12), rgba(245, 158, 11, 0.08));
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  border-radius: var(--radius-md);
+  animation: aiVpnFadeIn 0.4s ease;
+}
+
+@keyframes aiVpnFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+[dir="rtl"] .ai__vpn-notice {
+  border-right: 4px solid #f59e0b;
+}
+
+[dir="ltr"] .ai__vpn-notice {
+  border-left: 4px solid #f59e0b;
+}
+
+.ai__vpn-notice__icon {
+  font-size: 24px;
+  flex-shrink: 0;
+  animation: aiVpnPulse 2s ease-in-out infinite;
+}
+
+@keyframes aiVpnPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+.ai__vpn-notice__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.ai__vpn-notice__title {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.ai__vpn-notice__text {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* Dark mode */
+[data-theme="dark"] .ai__vpn-notice {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(245, 158, 11, 0.1));
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .ai__vpn-notice {
+    padding: var(--space-3);
+  }
+  
+  .ai__vpn-notice__icon {
+    font-size: 20px;
+  }
+  
+  .ai__vpn-notice__title {
+    font-size: var(--text-xs);
+  }
+  
+  .ai__vpn-notice__text {
+    font-size: 10px;
+  }
+}
+
 /* ---------- Student Snapshot ---------- */
 .ai__snapshot {
   display: grid;
