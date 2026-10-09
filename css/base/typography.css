@@ -1,0 +1,41 @@
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap');
+
+:root {
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'Courier New', monospace;
+
+  --text-xs:   0.75rem;
+  --text-sm:   0.875rem;
+  --text-base: 1rem;
+  --text-lg:   1.125rem;
+  --text-xl:   1.25rem;
+  --text-2xl:  1.5rem;
+  --text-3xl:  1.875rem;
+  --text-4xl:  2.25rem;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: calc(var(--text-base) * var(--font-scale));
+  font-weight: 400;
+  color: var(--text-primary);
+  background-color: var(--bg-secondary);
+  transition: background-color var(--transition-base),
+              color var(--transition-base),
+              font-size var(--transition-base);
+}
+
+h1 { font-size: calc(var(--text-4xl) * var(--font-scale)); font-weight: 800; letter-spacing: -0.02em; }
+h2 { font-size: calc(var(--text-3xl) * var(--font-scale)); font-weight: 700; letter-spacing: -0.02em; }
+h3 { font-size: calc(var(--text-2xl) * var(--font-scale)); font-weight: 700; }
+h4 { font-size: calc(var(--text-xl) * var(--font-scale));  font-weight: 600; }
+
+.text-sm { font-size: calc(var(--text-sm) * var(--font-scale)); }
+.text-lg { font-size: calc(var(--text-lg) * var(--font-scale)); }
+.text-secondary { color: var(--text-secondary); }
+.text-tertiary  { color: var(--text-tertiary); }
+.text-brand     { color: var(--brand); }

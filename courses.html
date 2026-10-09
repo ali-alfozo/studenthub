@@ -1,0 +1,333 @@
+  <!DOCTYPE html>
+  <html lang="ar" dir="rtl" data-theme="light">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="StudentHub — Courses">
+    <title data-i18n="courses.title">المواد — StudentHub</title>
+    
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#6366f1">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="StudentHub">
+    <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="assets/icons/icon-48.png">
+  </head>
+  <body>
+
+    <div class="app" id="app">
+
+      <!-- ============ SIDEBAR ============ -->
+      <aside class="sidebar" id="sidebar">
+        
+        <div class="sidebar__logo">
+          <div class="sidebar__logo-icon">S</div>
+          <span class="sidebar__logo-text">StudentHub</span>
+        </div>
+
+      <nav class="sidebar__nav">
+    <a href="index.html" class="nav-item">
+      <span class="nav-item__icon">🏠</span>
+      <span class="nav-item__label" data-i18n="sidebar.home">الرئيسية</span>
+    </a>
+    <a href="courses.html" class="nav-item active">
+      <span class="nav-item__icon">📚</span>
+      <span class="nav-item__label" data-i18n="sidebar.courses">المواد</span>
+    </a>
+    <a href="exams.html" class="nav-item">
+      <span class="nav-item__icon">📝</span>
+      <span class="nav-item__label" data-i18n="sidebar.exams">الامتحانات</span>
+    </a>
+    <a href="gpa.html" class="nav-item">
+      <span class="nav-item__icon">📊</span>
+      <span class="nav-item__label" data-i18n="sidebar.gpa">المعدل</span>
+    </a>
+    <a href="timer.html" class="nav-item">
+      <span class="nav-item__icon">⏱️</span>
+      <span class="nav-item__label" data-i18n="sidebar.timer">جلسات الدراسة</span>
+    </a>
+    <a href="ai.html" class="nav-item">
+    <span class="nav-item__icon">🤖</span>
+    <span class="nav-item__label" data-i18n="sidebar.ai">المساعد الذكي</span>
+  </a>
+    <a href="notes.html" class="nav-item">
+      <span class="nav-item__icon">📔</span>
+      <span class="nav-item__label" data-i18n="sidebar.notes">الملاحظات</span>
+    </a>
+    <a href="settings.html" class="nav-item">
+      <span class="nav-item__icon">⚙️</span>
+      <span class="nav-item__label" data-i18n="sidebar.settings">الإعدادات</span>
+    </a>
+  </nav>
+
+        <div class="sidebar__footer">
+          <a href="#" class="nav-item">
+            <span class="nav-item__icon">🚪</span>
+            <span class="nav-item__label" data-i18n="sidebar.logout">تسجيل خروج</span>
+          </a>
+        </div>
+
+      </aside>
+
+      <!-- ============ HEADER ============ -->
+      <header class="header">
+        
+        <div class="header__left">
+          <button class="icon-btn" id="sidebarToggle" data-i18n-aria="header.menu" aria-label="القائمة">☰</button>
+          <div class="header__search">
+            <span class="header__search-icon">🔍</span>
+            <input 
+              type="search" 
+              id="globalSearch"
+              data-i18n-placeholder="header.search"
+              placeholder="ابحث..." 
+              aria-label="بحث"
+              autocomplete="off"
+            >
+            <div class="search-results" id="searchResults"></div>
+          </div>
+        </div>
+
+        <div class="header__right">
+          <button class="icon-btn" id="themeToggle" data-i18n-aria="header.theme" aria-label="تبديل الثيم">🌙</button>
+          <div class="notifications-wrapper" id="notificationsWrapper">
+    <button class="icon-btn" id="notificationsBtn" data-i18n-aria="header.notifications" aria-label="الإشعارات">
+      🔔
+      <span class="notifications-badge" id="notificationsBadge"></span>
+    </button>
+    <div class="notifications-dropdown" id="notificationsDropdown">
+      <!-- سيتم تعبئته من JS -->
+    </div>
+  </div>
+          <a href="settings.html" class="avatar" id="headerAvatar" title="الإعدادات">أ</a>
+        </div>
+
+      </header>
+
+      <!-- ============ MAIN ============ -->
+      <main class="main">
+        <div class="container" style="padding-top: var(--space-8); padding-bottom: var(--space-8);">
+          
+          <div class="courses">
+
+            <!-- ============ HEADER ============ -->
+            <div class="courses__header">
+              <div>
+                <h1 class="courses__title">📚 <span data-i18n="courses.title">المواد الدراسية</span></h1>
+                <p class="courses__subtitle" data-i18n="courses.subtitle">
+                  إدارة كل موادك الدراسية في مكان واحد
+                </p>
+              </div>
+              <button class="btn btn-primary" id="addCourseBtn">
+                <span>➕</span>
+                <span data-i18n="courses.addNew">إضافة مادة</span>
+              </button>
+            </div>
+
+            <!-- ============ TOOLBAR ============ -->
+            <div class="courses__toolbar">
+              <div class="courses__search">
+                <span class="courses__search-icon">🔍</span>
+                <input 
+                  type="search" 
+                  class="courses__search-input" 
+                  id="courseSearch"
+                  data-i18n-placeholder="courses.searchPlaceholder"
+                  placeholder="ابحث عن مادة..."
+                >
+              </div>
+              <div class="courses__filters">
+                <select class="form-select" id="courseFilterDay">
+                  <option value="" data-i18n="courses.allDays">كل الأيام</option>
+                  <option value="0" data-i18n="days.sunday">الأحد</option>
+                  <option value="1" data-i18n="days.monday">الاثنين</option>
+                  <option value="2" data-i18n="days.tuesday">الثلاثاء</option>
+                  <option value="3" data-i18n="days.wednesday">الأربعاء</option>
+                  <option value="4" data-i18n="days.thursday">الخميس</option>
+                  <option value="5" data-i18n="days.friday">الجمعة</option>
+                  <option value="6" data-i18n="days.saturday">السبت</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- ============ COURSES GRID ============ -->
+            <div class="courses__grid" id="coursesGrid"></div>
+
+            <!-- ============ EMPTY STATE ============ -->
+            <div class="empty-state" id="coursesEmpty" style="display: none;">
+              <div class="empty-state__icon">📚</div>
+              <h3 class="empty-state__title" data-i18n="courses.emptyTitle">لا توجد مواد بعد</h3>
+              <p class="empty-state__text" data-i18n="courses.emptyText">
+                ابدأ بإضافة أول مادة دراسية
+              </p>
+              <button class="btn btn-primary" id="addFirstCourseBtn" style="margin-top: var(--space-4);">
+                <span>➕</span>
+                <span data-i18n="courses.addNew">إضافة مادة</span>
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+      </main>
+
+      <!-- ============ ADD/EDIT COURSE DIALOG ============ -->
+      <dialog class="dialog" id="courseDialog">
+        <div class="dialog__content">
+          
+          <div class="dialog__header">
+            <h2 class="dialog__title" id="courseDialogTitle" data-i18n="courses.addNew">
+              إضافة مادة
+            </h2>
+            <button class="icon-btn" id="closeDialogBtn" aria-label="إغلاق">✖</button>
+          </div>
+
+          <form id="courseForm" class="dialog__form">
+            
+            <div class="form-group">
+              <label class="form-label">
+                <span data-i18n="courses.fields.name">اسم المادة</span>
+                <span class="required">*</span>
+              </label>
+              <input 
+                type="text" 
+                class="form-input" 
+                id="courseName"
+                data-i18n-placeholder="courses.fields.namePlaceholder"
+                placeholder="مثال: رياضيات 1"
+                required
+              >
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" data-i18n="courses.fields.professor">اسم الدكتور</label>
+                <input 
+                  type="text" 
+                  class="form-input" 
+                  id="courseProfessor"
+                  data-i18n-placeholder="courses.fields.professorPlaceholder"
+                  placeholder="مثال: د. أحمد"
+                >
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">
+                  <span data-i18n="courses.fields.credits">عدد الساعات</span>
+                  <span class="required">*</span>
+                </label>
+                <input 
+                  type="number" 
+                  class="form-input" 
+                  id="courseCredits"
+                  min="1" 
+                  max="10"
+                  value="3"
+                  required
+                >
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" data-i18n="courses.fields.day">اليوم</label>
+                <select class="form-select" id="courseDay">
+                  <option value="0" data-i18n="days.sunday">الأحد</option>
+                  <option value="1" data-i18n="days.monday">الاثنين</option>
+                  <option value="2" data-i18n="days.tuesday">الثلاثاء</option>
+                  <option value="3" data-i18n="days.wednesday">الأربعاء</option>
+                  <option value="4" data-i18n="days.thursday">الخميس</option>
+                  <option value="5" data-i18n="days.friday">الجمعة</option>
+                  <option value="6" data-i18n="days.saturday">السبت</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" data-i18n="courses.fields.time">الوقت</label>
+                <input 
+                  type="time" 
+                  class="form-input" 
+                  id="courseTime"
+                  value="09:00"
+                >
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" data-i18n="courses.fields.room">القاعة</label>
+              <input 
+                type="text" 
+                class="form-input" 
+                id="courseRoom"
+                data-i18n-placeholder="courses.fields.roomPlaceholder"
+                placeholder="مثال: قاعة A"
+              >
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" data-i18n="courses.fields.notes">ملاحظات</label>
+              <textarea 
+                class="form-textarea" 
+                id="courseNotes"
+                data-i18n-placeholder="courses.fields.notesPlaceholder"
+                placeholder="أي ملاحظات إضافية..."
+                rows="3"
+              ></textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" data-i18n="courses.fields.color">اللون</label>
+              <div class="courses__colors" id="courseColors">
+                <button type="button" class="courses__color active" data-color="#6366f1" style="--color: #6366f1;"></button>
+                <button type="button" class="courses__color" data-color="#3b82f6" style="--color: #3b82f6;"></button>
+                <button type="button" class="courses__color" data-color="#10b981" style="--color: #10b981;"></button>
+                <button type="button" class="courses__color" data-color="#f59e0b" style="--color: #f59e0b;"></button>
+                <button type="button" class="courses__color" data-color="#ef4444" style="--color: #ef4444;"></button>
+                <button type="button" class="courses__color" data-color="#a855f7" style="--color: #a855f7;"></button>
+                <button type="button" class="courses__color" data-color="#ec4899" style="--color: #ec4899;"></button>
+                <button type="button" class="courses__color" data-color="#06b6d4" style="--color: #06b6d4;"></button>
+              </div>
+            </div>
+
+            <div class="dialog__actions">
+              <button type="button" class="btn btn-secondary" id="cancelCourseBtn" data-i18n="common.cancel">
+                إلغاء
+              </button>
+              <button type="submit" class="btn btn-primary" id="saveCourseBtn">
+                💾 <span data-i18n="common.save">حفظ</span>
+              </button>
+            </div>
+
+          </form>
+
+        </div>
+      </dialog>
+
+      <!-- ============ DELETE CONFIRM DIALOG ============ -->
+      <dialog class="dialog" id="deleteDialog">
+        <div class="dialog__content">
+          <div class="dialog__icon">⚠️</div>
+          <h2 class="dialog__title" data-i18n="courses.deleteTitle">حذف المادة</h2>
+          <p class="dialog__text" data-i18n="courses.deleteText">
+            هل أنت متأكد من حذف هذه المادة؟ لا يمكن التراجع.
+          </p>
+          <div class="dialog__actions">
+            <button class="btn btn-secondary" id="cancelDeleteBtn" data-i18n="common.cancel">إلغاء</button>
+            <button class="btn btn-danger" id="confirmDeleteBtn">
+              🗑️ <span data-i18n="common.delete">حذف</span>
+            </button>
+          </div>
+        </div>
+      </dialog>
+
+    </div>
+
+    <script src="js/main.js" type="module"></script>
+    <script src="js/modules/courses.js" type="module"></script>
+  </body>
+  </html>

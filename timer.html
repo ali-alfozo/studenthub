@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="StudentHub — Pomodoro Timer">
+ <title data-i18n="timer.title">جلسات الدراسة — StudentHub</title>
+  
+  <link rel="stylesheet" href="css/main.css">
+  
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#6366f1">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="StudentHub">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="assets/icons/icon-48.png" id="dynamicFavicon">
+</head>
+<body>
+
+  <div class="app" id="app">
+
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar" id="sidebar">
+      
+      <div class="sidebar__logo">
+        <div class="sidebar__logo-icon">S</div>
+        <span class="sidebar__logo-text">StudentHub</span>
+      </div>
+
+      <nav class="sidebar__nav">
+  <a href="index.html" class="nav-item">
+    <span class="nav-item__icon">🏠</span>
+    <span class="nav-item__label" data-i18n="sidebar.home">الرئيسية</span>
+  </a>
+  <a href="courses.html" class="nav-item">
+    <span class="nav-item__icon">📚</span>
+    <span class="nav-item__label" data-i18n="sidebar.courses">المواد</span>
+  </a>
+  <a href="exams.html" class="nav-item">
+    <span class="nav-item__icon">📝</span>
+    <span class="nav-item__label" data-i18n="sidebar.exams">الامتحانات</span>
+  </a>
+  <a href="gpa.html" class="nav-item">
+    <span class="nav-item__icon">📊</span>
+    <span class="nav-item__label" data-i18n="sidebar.gpa">المعدل</span>
+  </a>
+  <a href="timer.html" class="nav-item active">
+    <span class="nav-item__icon">⏱️</span>
+    <span class="nav-item__label" data-i18n="sidebar.timer">جلسات الدراسة</span>
+  </a>
+  <a href="ai.html" class="nav-item">
+  <span class="nav-item__icon">🤖</span>
+  <span class="nav-item__label" data-i18n="sidebar.ai">المساعد الذكي</span>
+</a>
+  <a href="notes.html" class="nav-item">
+    <span class="nav-item__icon">📔</span>
+    <span class="nav-item__label" data-i18n="sidebar.notes">الملاحظات</span>
+  </a>
+  <a href="settings.html" class="nav-item">
+    <span class="nav-item__icon">⚙️</span>
+    <span class="nav-item__label" data-i18n="sidebar.settings">الإعدادات</span>
+  </a>
+</nav>
+
+      <div class="sidebar__footer">
+        <a href="#" class="nav-item">
+          <span class="nav-item__icon">🚪</span>
+          <span class="nav-item__label" data-i18n="sidebar.logout">تسجيل خروج</span>
+        </a>
+      </div>
+
+    </aside>
+
+    <!-- ============ HEADER ============ -->
+    <header class="header">
+      
+      <div class="header__left">
+        <button class="icon-btn" id="sidebarToggle" data-i18n-aria="header.menu" aria-label="القائمة">☰</button>
+        <div class="header__search">
+          <span class="header__search-icon">🔍</span>
+          <input 
+            type="search" 
+            id="globalSearch"
+            data-i18n-placeholder="header.search"
+            placeholder="ابحث..." 
+            aria-label="بحث"
+            autocomplete="off"
+          >
+          <div class="search-results" id="searchResults"></div>
+        </div>
+      </div>
+
+      <div class="header__right">
+        <button class="icon-btn" id="themeToggle" data-i18n-aria="header.theme" aria-label="تبديل الثيم">🌙</button>
+        <div class="notifications-wrapper" id="notificationsWrapper">
+          <button class="icon-btn" id="notificationsBtn" data-i18n-aria="header.notifications" aria-label="الإشعارات">
+            🔔
+            <span class="notifications-badge" id="notificationsBadge"></span>
+          </button>
+          <div class="notifications-dropdown" id="notificationsDropdown"></div>
+        </div>
+        <a href="settings.html" class="avatar" id="headerAvatar" title="الإعدادات">أ</a>
+      </div>
+
+    </header>
+
+    <!-- ============ MAIN ============ -->
+    <main class="main">
+      <div class="container" style="padding-top: var(--space-8); padding-bottom: var(--space-8);">
+        
+        <div class="timer">
+          
+          <!-- HEADER -->
+          <div class="timer__header">
+         <h1 class="timer__title">⏱️ <span data-i18n="timer.title">جلسات الدراسة</span></h1>
+            <p class="timer__subtitle" data-i18n="timer.subtitle">نظّم وقتك باستخدام تقنية Pomodoro</p>
+          </div>
+
+          <!-- MODES TABS -->
+          <div class="timer__modes">
+            <button class="timer__mode active" data-mode="study" title="جلسة دراسة عادية — 25 دقيقة">
+              <span>📚</span>
+              <span data-i18n="timer.modes.study">دراسة</span>
+            </button>
+            <button class="timer__mode" data-mode="deep" title="دراسة عميقة — 90 دقيقة">
+              <span>🧠</span>
+              <span data-i18n="timer.modes.deep">دراسة عميقة</span>
+            </button>
+            <button class="timer__mode" data-mode="review" title="مراجعة سريعة قبل الامتحان — 10 دقائق">
+              <span>⚡</span>
+              <span data-i18n="timer.modes.review">مراجعة سريعة</span>
+            </button>
+            <button class="timer__mode" data-mode="break" title="راحة قصيرة — 5 دقائق">
+              <span>☕</span>
+              <span data-i18n="timer.modes.break">راحة</span>
+            </button>
+          </div>
+
+          <!-- SETTINGS -->
+          <div class="timer__settings card">
+            <div class="timer__settings-header">
+              <span>⚙️</span>
+              <span data-i18n="timer.settings.title">اضبط المدة</span>
+            </div>
+            <div class="timer__settings-grid">
+              <label class="timer__setting">
+                <span class="timer__setting-label">📚 <span data-i18n="timer.modes.study">دراسة</span></span>
+                <div class="timer__setting-input">
+                  <button class="timer__setting-btn" data-action="decrement" data-mode="study">−</button>
+                  <input type="number" min="1" max="60" value="25" id="settingStudy" class="timer__setting-value">
+                  <button class="timer__setting-btn" data-action="increment" data-mode="study">+</button>
+                </div>
+              </label>
+              <label class="timer__setting">
+                <span class="timer__setting-label">🧠 <span data-i18n="timer.modes.deep">دراسة عميقة</span></span>
+                <div class="timer__setting-input">
+                  <button class="timer__setting-btn" data-action="decrement" data-mode="deep">−</button>
+                  <input type="number" min="30" max="180" value="90" id="settingDeep" class="timer__setting-value">
+                  <button class="timer__setting-btn" data-action="increment" data-mode="deep">+</button>
+                </div>
+              </label>
+              <label class="timer__setting">
+                <span class="timer__setting-label">⚡ <span data-i18n="timer.modes.review">مراجعة سريعة</span></span>
+                <div class="timer__setting-input">
+                  <button class="timer__setting-btn" data-action="decrement" data-mode="review">−</button>
+                  <input type="number" min="1" max="30" value="10" id="settingReview" class="timer__setting-value">
+                  <button class="timer__setting-btn" data-action="increment" data-mode="review">+</button>
+                </div>
+              </label>
+              <label class="timer__setting">
+                <span class="timer__setting-label">☕ <span data-i18n="timer.modes.break">راحة</span></span>
+                <div class="timer__setting-input">
+                  <button class="timer__setting-btn" data-action="decrement" data-mode="break">−</button>
+                  <input type="number" min="1" max="30" value="5" id="settingBreak" class="timer__setting-value">
+                  <button class="timer__setting-btn" data-action="increment" data-mode="break">+</button>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- TIMER CIRCLE -->
+          <div class="timer__display">
+            <svg class="timer__circle" viewBox="0 0 300 300">
+              <defs>
+                <linearGradient id="timerGradientStudy" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#3b82f6" />
+                  <stop offset="100%" stop-color="#2563eb" />
+                </linearGradient>
+                <linearGradient id="timerGradientDeep" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#a855f7" />
+                  <stop offset="100%" stop-color="#7c3aed" />
+                </linearGradient>
+                <linearGradient id="timerGradientReview" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#fbbf24" />
+                  <stop offset="100%" stop-color="#f59e0b" />
+                </linearGradient>
+                <linearGradient id="timerGradientBreak" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#34d399" />
+                  <stop offset="100%" stop-color="#10b981" />
+                </linearGradient>
+              </defs>
+              <circle class="timer__circle-bg" cx="150" cy="150" r="140"></circle>
+              <circle class="timer__circle-progress mode-study" cx="150" cy="150" r="140" id="timerProgress"></circle>
+            </svg>
+            <div class="timer__content">
+              <div class="timer__time" id="timerDisplay">25:00</div>
+              <div class="timer__mode-label" id="timerModeLabel">جلسة دراسة</div>
+            </div>
+          </div>
+
+          <!-- CONTROLS -->
+          <div class="timer__controls">
+            <button class="btn btn-secondary timer__reset-btn" id="resetBtn">
+              <span>🔄</span>
+              <span data-i18n="timer.reset">إعادة</span>
+            </button>
+            <button class="btn btn-primary timer__start-btn" id="startBtn">
+              <span id="startIcon">▶</span>
+              <span id="startText" data-i18n="timer.start">ابدأ</span>
+            </button>
+          </div>
+
+          <!-- STATS -->
+          <div class="timer__stats">
+            <div class="timer__stat">
+              <div class="timer__stat-icon">⏳</div>
+              <div class="timer__stat-label" data-i18n="timer.stats.totalMinutes">إجمالي الدقائق</div>
+              <div class="timer__stat-value" id="statTotalMinutes">0</div>
+            </div>
+            <div class="timer__stat">
+              <div class="timer__stat-icon">🕐</div>
+              <div class="timer__stat-label" data-i18n="timer.stats.sessionsToday">جلسات اليوم</div>
+              <div class="timer__stat-value" id="statSessionsToday">0</div>
+            </div>
+            <div class="timer__stat">
+              <div class="timer__stat-icon">🔥</div>
+              <div class="timer__stat-label" data-i18n="timer.stats.streak">أيام متتالية</div>
+              <div class="timer__stat-value" id="statStreak">0</div>
+            </div>
+          </div>
+
+          <!-- RECENT SESSIONS -->
+          <div class="card timer__sessions">
+            <div class="card__header">
+              <h2 class="card__title" data-i18n="timer.sessions.title">📊 آخر الجلسات</h2>
+              <button class="btn btn-ghost btn-sm" id="clearSessionsBtn" data-i18n="timer.sessions.clear">مسح الكل</button>
+            </div>
+            <div class="card__body" id="sessionsList"></div>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <script src="js/main.js" type="module"></script>
+  <script src="js/modules/timer.js" type="module"></script>
+</body>
+</html>

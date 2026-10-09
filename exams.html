@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="StudentHub — Exams">
+  <title data-i18n="exams.title">الامتحانات — StudentHub</title>
+  
+  <link rel="stylesheet" href="css/main.css">
+  
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#6366f1">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="StudentHub">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="assets/icons/icon-48.png">
+</head>
+<body>
+
+  <div class="app" id="app">
+
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar" id="sidebar">
+      
+      <div class="sidebar__logo">
+        <div class="sidebar__logo-icon">S</div>
+        <span class="sidebar__logo-text">StudentHub</span>
+      </div>
+
+      <nav class="sidebar__nav">
+  <a href="index.html" class="nav-item">
+    <span class="nav-item__icon">🏠</span>
+    <span class="nav-item__label" data-i18n="sidebar.home">الرئيسية</span>
+  </a>
+  <a href="courses.html" class="nav-item">
+    <span class="nav-item__icon">📚</span>
+    <span class="nav-item__label" data-i18n="sidebar.courses">المواد</span>
+  </a>
+  <a href="exams.html" class="nav-item active">
+    <span class="nav-item__icon">📝</span>
+    <span class="nav-item__label" data-i18n="sidebar.exams">الامتحانات</span>
+  </a>
+  <a href="gpa.html" class="nav-item">
+    <span class="nav-item__icon">📊</span>
+    <span class="nav-item__label" data-i18n="sidebar.gpa">المعدل</span>
+  </a>
+  <a href="timer.html" class="nav-item">
+    <span class="nav-item__icon">⏱️</span>
+    <span class="nav-item__label" data-i18n="sidebar.timer">جلسات الدراسة</span>
+  </a>
+  <a href="ai.html" class="nav-item">
+  <span class="nav-item__icon">🤖</span>
+  <span class="nav-item__label" data-i18n="sidebar.ai">المساعد الذكي</span>
+</a>
+  <a href="notes.html" class="nav-item">
+    <span class="nav-item__icon">📔</span>
+    <span class="nav-item__label" data-i18n="sidebar.notes">الملاحظات</span>
+  </a>
+  <a href="settings.html" class="nav-item">
+    <span class="nav-item__icon">⚙️</span>
+    <span class="nav-item__label" data-i18n="sidebar.settings">الإعدادات</span>
+  </a>
+</nav>
+
+      <div class="sidebar__footer">
+        <a href="#" class="nav-item">
+          <span class="nav-item__icon">🚪</span>
+          <span class="nav-item__label" data-i18n="sidebar.logout">تسجيل خروج</span>
+        </a>
+      </div>
+
+    </aside>
+
+    <!-- ============ HEADER ============ -->
+    <header class="header">
+      
+      <div class="header__left">
+        <button class="icon-btn" id="sidebarToggle" data-i18n-aria="header.menu" aria-label="القائمة">☰</button>
+        <div class="header__search">
+          <span class="header__search-icon">🔍</span>
+          <input 
+            type="search" 
+            id="globalSearch"
+            data-i18n-placeholder="header.search"
+            placeholder="ابحث..." 
+            aria-label="بحث"
+            autocomplete="off"
+          >
+          <div class="search-results" id="searchResults"></div>
+        </div>
+      </div>
+
+      <div class="header__right">
+        <button class="icon-btn" id="themeToggle" data-i18n-aria="header.theme" aria-label="تبديل الثيم">🌙</button>
+       <div class="notifications-wrapper" id="notificationsWrapper">
+  <button class="icon-btn" id="notificationsBtn" data-i18n-aria="header.notifications" aria-label="الإشعارات">
+    🔔
+    <span class="notifications-badge" id="notificationsBadge"></span>
+  </button>
+  <div class="notifications-dropdown" id="notificationsDropdown">
+    <!-- سيتم تعبئته من JS -->
+  </div>
+</div>
+        <a href="settings.html" class="avatar" id="headerAvatar" title="الإعدادات">أ</a>
+      </div>
+
+    </header>
+
+    <!-- ============ MAIN ============ -->
+    <main class="main">
+      <div class="container" style="padding-top: var(--space-8); padding-bottom: var(--space-8);">
+        
+        <div class="exams">
+
+          <!-- ============ HEADER ============ -->
+          <div class="exams__header">
+            <div>
+              <h1 class="exams__title">📝 <span data-i18n="exams.title">الامتحانات</span></h1>
+              <p class="exams__subtitle" data-i18n="exams.subtitle">
+                تابع كل امتحاناتك القادمة
+              </p>
+            </div>
+            <button class="btn btn-primary" id="addExamBtn">
+              <span>➕</span>
+              <span data-i18n="exams.addNew">إضافة امتحان</span>
+            </button>
+          </div>
+
+          <!-- ============ TOOLBAR ============ -->
+          <div class="exams__toolbar">
+            <div class="exams__search">
+              <span class="exams__search-icon">🔍</span>
+              <input 
+                type="search" 
+                class="exams__search-input" 
+                id="examSearch"
+                data-i18n-placeholder="exams.searchPlaceholder"
+                placeholder="ابحث عن امتحان..."
+              >
+            </div>
+            <div class="exams__filters">
+              <select class="form-select" id="examFilterType">
+                <option value="" data-i18n="exams.allTypes">كل الأنواع</option>
+                <option value="midterm" data-i18n="exams.types.midterm">نصفي</option>
+                <option value="final" data-i18n="exams.types.final">نهائي</option>
+                <option value="lab" data-i18n="exams.types.lab">عملي</option>
+                <option value="oral" data-i18n="exams.types.oral">شفهي</option>
+              </select>
+             <select class="form-select" id="examFilterStatus">
+  <option value="all" data-i18n="exams.status.all" selected>الكل</option>
+  <option value="upcoming" data-i18n="exams.status.upcoming">القادمة</option>
+  <option value="past" data-i18n="exams.status.past">السابقة</option>
+</select>
+            </div>
+          </div>
+
+          <!-- ============ EXAMS GRID ============ -->
+          <div class="exams__grid" id="examsGrid"></div>
+
+          <!-- ============ EMPTY STATE ============ -->
+          <div class="empty-state" id="examsEmpty" style="display: none;">
+            <div class="empty-state__icon">📝</div>
+            <h3 class="empty-state__title" data-i18n="exams.emptyTitle">لا توجد امتحانات بعد</h3>
+            <p class="empty-state__text" data-i18n="exams.emptyText">
+              ابدأ بإضافة أول امتحان
+            </p>
+            <button class="btn btn-primary" id="addFirstExamBtn" style="margin-top: var(--space-4);">
+              <span>➕</span>
+              <span data-i18n="exams.addNew">إضافة امتحان</span>
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+
+    <!-- ============ ADD/EDIT EXAM DIALOG ============ -->
+    <dialog class="dialog" id="examDialog">
+      <div class="dialog__content">
+        
+        <div class="dialog__header">
+          <h2 class="dialog__title" id="examDialogTitle" data-i18n="exams.addNew">
+            إضافة امتحان
+          </h2>
+          <button class="icon-btn" id="closeDialogBtn" aria-label="إغلاق">✖</button>
+        </div>
+
+        <form id="examForm" class="dialog__form">
+          
+          <div class="form-group">
+            <label class="form-label">
+              <span data-i18n="exams.fields.name">اسم المادة</span>
+              <span class="required">*</span>
+            </label>
+            <input 
+              type="text" 
+              class="form-input" 
+              id="examName"
+              data-i18n-placeholder="exams.fields.namePlaceholder"
+              placeholder="مثال: رياضيات 1"
+              required
+            >
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" data-i18n="exams.fields.type">النوع</label>
+              <select class="form-select" id="examType">
+                <option value="midterm" data-i18n="exams.types.midterm">نصفي</option>
+                <option value="final" data-i18n="exams.types.final">نهائي</option>
+                <option value="lab" data-i18n="exams.types.lab">عملي</option>
+                <option value="oral" data-i18n="exams.types.oral">شفهي</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" data-i18n="exams.fields.room">القاعة</label>
+              <input 
+                type="text" 
+                class="form-input" 
+                id="examRoom"
+                data-i18n-placeholder="exams.fields.roomPlaceholder"
+                placeholder="مثال: قاعة A"
+              >
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">
+                <span data-i18n="exams.fields.date">التاريخ</span>
+                <span class="required">*</span>
+              </label>
+              <input 
+                type="date" 
+                class="form-input" 
+                id="examDate"
+                required
+              >
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" data-i18n="exams.fields.time">الوقت</label>
+              <input 
+                type="time" 
+                class="form-input" 
+                id="examTime"
+                value="09:00"
+              >
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" data-i18n="exams.fields.notes">ملاحظات</label>
+            <textarea 
+              class="form-textarea" 
+              id="examNotes"
+              data-i18n-placeholder="exams.fields.notesPlaceholder"
+              placeholder="أي ملاحظات إضافية..."
+              rows="3"
+            ></textarea>
+          </div>
+
+          <div class="dialog__actions">
+            <button type="button" class="btn btn-secondary" id="cancelExamBtn" data-i18n="common.cancel">
+              إلغاء
+            </button>
+            <button type="submit" class="btn btn-primary" id="saveExamBtn">
+              💾 <span data-i18n="common.save">حفظ</span>
+            </button>
+          </div>
+
+        </form>
+
+      </div>
+    </dialog>
+
+    <!-- ============ DELETE CONFIRM DIALOG ============ -->
+    <dialog class="dialog" id="deleteDialog">
+      <div class="dialog__content">
+        <div class="dialog__icon">⚠️</div>
+        <h2 class="dialog__title" data-i18n="exams.deleteTitle">حذف الامتحان</h2>
+        <p class="dialog__text" data-i18n="exams.deleteText">
+          هل أنت متأكد من حذف هذا الامتحان؟ لا يمكن التراجع.
+        </p>
+        <div class="dialog__actions">
+          <button class="btn btn-secondary" id="cancelDeleteBtn" data-i18n="common.cancel">إلغاء</button>
+          <button class="btn btn-danger" id="confirmDeleteBtn">
+            🗑️ <span data-i18n="common.delete">حذف</span>
+          </button>
+        </div>
+      </div>
+    </dialog>
+
+  </div>
+
+  <script src="js/main.js" type="module"></script>
+  <script src="js/modules/exams.js" type="module"></script>
+</body>
+</html>

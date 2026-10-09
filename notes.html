@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="StudentHub — Notes">
+  <title data-i18n="notes.title">الملاحظات — StudentHub</title>
+  
+  <link rel="stylesheet" href="css/main.css">
+  
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#6366f1">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="StudentHub">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="assets/icons/icon-48.png">
+</head>
+<body>
+
+  <div class="app" id="app">
+
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar" id="sidebar">
+      
+      <div class="sidebar__logo">
+        <div class="sidebar__logo-icon">S</div>
+        <span class="sidebar__logo-text">StudentHub</span>
+      </div>
+
+      <nav class="sidebar__nav">
+  <a href="index.html" class="nav-item">
+    <span class="nav-item__icon">🏠</span>
+    <span class="nav-item__label" data-i18n="sidebar.home">الرئيسية</span>
+  </a>
+  <a href="courses.html" class="nav-item">
+    <span class="nav-item__icon">📚</span>
+    <span class="nav-item__label" data-i18n="sidebar.courses">المواد</span>
+  </a>
+  <a href="exams.html" class="nav-item">
+    <span class="nav-item__icon">📝</span>
+    <span class="nav-item__label" data-i18n="sidebar.exams">الامتحانات</span>
+  </a>
+  <a href="gpa.html" class="nav-item">
+    <span class="nav-item__icon">📊</span>
+    <span class="nav-item__label" data-i18n="sidebar.gpa">المعدل</span>
+  </a>
+  <a href="timer.html" class="nav-item">
+    <span class="nav-item__icon">⏱️</span>
+    <span class="nav-item__label" data-i18n="sidebar.timer">جلسات الدراسة</span>
+  </a>
+  <a href="ai.html" class="nav-item">
+  <span class="nav-item__icon">🤖</span>
+  <span class="nav-item__label" data-i18n="sidebar.ai">المساعد الذكي</span>
+</a>
+  <a href="notes.html" class="nav-item active">
+    <span class="nav-item__icon">📔</span>
+    <span class="nav-item__label" data-i18n="sidebar.notes">الملاحظات</span>
+  </a>
+  <a href="settings.html" class="nav-item">
+    <span class="nav-item__icon">⚙️</span>
+    <span class="nav-item__label" data-i18n="sidebar.settings">الإعدادات</span>
+  </a>
+</nav>
+
+      <div class="sidebar__footer">
+        <a href="#" class="nav-item">
+          <span class="nav-item__icon">🚪</span>
+          <span class="nav-item__label" data-i18n="sidebar.logout">تسجيل خروج</span>
+        </a>
+      </div>
+
+    </aside>
+
+    <!-- ============ HEADER ============ -->
+    <header class="header">
+      
+      <div class="header__left">
+        <button class="icon-btn" id="sidebarToggle" data-i18n-aria="header.menu" aria-label="القائمة">☰</button>
+        <div class="header__search">
+          <span class="header__search-icon">🔍</span>
+          <input 
+            type="search" 
+            id="globalSearch"
+            data-i18n-placeholder="header.search"
+            placeholder="ابحث..." 
+            aria-label="بحث"
+            autocomplete="off"
+          >
+          <div class="search-results" id="searchResults"></div>
+        </div>
+      </div>
+
+      <div class="header__right">
+        <button class="icon-btn" id="themeToggle" data-i18n-aria="header.theme" aria-label="تبديل الثيم">🌙</button>
+        <div class="notifications-wrapper" id="notificationsWrapper">
+  <button class="icon-btn" id="notificationsBtn" data-i18n-aria="header.notifications" aria-label="الإشعارات">
+    🔔
+    <span class="notifications-badge" id="notificationsBadge"></span>
+  </button>
+  <div class="notifications-dropdown" id="notificationsDropdown">
+    <!-- سيتم تعبئته من JS -->
+  </div>
+</div>
+        <a href="settings.html" class="avatar" id="headerAvatar" title="الإعدادات">أ</a>
+      </div>
+
+    </header>
+
+    <!-- ============ MAIN ============ -->
+    <main class="main">
+      <div class="container" style="padding-top: var(--space-8); padding-bottom: var(--space-8);">
+        
+        <div class="notes">
+
+          <!-- ============ HEADER ============ -->
+          <div class="notes__header">
+            <div>
+              <h1 class="notes__title">📔 <span data-i18n="notes.title">الملاحظات</span></h1>
+              <p class="notes__subtitle" data-i18n="notes.subtitle">
+                احفظ أفكارك وملاحظاتك في مكان واحد
+              </p>
+            </div>
+            <button class="btn btn-primary" id="addNoteBtn">
+              <span>➕</span>
+              <span data-i18n="notes.addNew">إضافة ملاحظة</span>
+            </button>
+          </div>
+
+          <!-- ============ TOOLBAR ============ -->
+          <div class="notes__toolbar">
+            <div class="notes__search">
+              <span class="notes__search-icon">🔍</span>
+              <input 
+                type="search" 
+                class="notes__search-input" 
+                id="noteSearch"
+                data-i18n-placeholder="notes.searchPlaceholder"
+                placeholder="ابحث في الملاحظات..."
+              >
+            </div>
+            <div class="notes__filters">
+              <select class="form-select" id="noteFilterPinned">
+                <option value="all" data-i18n="notes.allNotes">كل الملاحظات</option>
+                <option value="pinned" data-i18n="notes.pinnedOnly">المثبتة فقط</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- ============ NOTES GRID ============ -->
+          <div class="notes__grid" id="notesGrid"></div>
+
+          <!-- ============ EMPTY STATE ============ -->
+          <div class="empty-state" id="notesEmpty" style="display: none;">
+            <div class="empty-state__icon">📔</div>
+            <h3 class="empty-state__title" data-i18n="notes.emptyTitle">لا توجد ملاحظات بعد</h3>
+            <p class="empty-state__text" data-i18n="notes.emptyText">
+              ابدأ بإضافة أول ملاحظة
+            </p>
+            <button class="btn btn-primary" id="addFirstNoteBtn" style="margin-top: var(--space-4);">
+              <span>➕</span>
+              <span data-i18n="notes.addNew">إضافة ملاحظة</span>
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+
+    <!-- ============ ADD/EDIT NOTE DIALOG ============ -->
+    <dialog class="dialog" id="noteDialog">
+      <div class="dialog__content">
+        
+        <div class="dialog__header">
+          <h2 class="dialog__title" id="noteDialogTitle" data-i18n="notes.addNew">
+            إضافة ملاحظة
+          </h2>
+          <button class="icon-btn" id="closeDialogBtn" aria-label="إغلاق">✖</button>
+        </div>
+
+        <form id="noteForm" class="dialog__form">
+          
+          <!-- Title -->
+          <div class="form-group">
+            <label class="form-label">
+              <span data-i18n="notes.fields.title">العنوان</span>
+              <span class="required">*</span>
+            </label>
+            <input 
+              type="text" 
+              class="form-input" 
+              id="noteTitle"
+              data-i18n-placeholder="notes.fields.titlePlaceholder"
+              placeholder="عنوان الملاحظة"
+              required
+            >
+          </div>
+
+          <!-- Content -->
+          <div class="form-group">
+            <label class="form-label" data-i18n="notes.fields.content">المحتوى</label>
+            <textarea 
+              class="form-textarea" 
+              id="noteContent"
+              data-i18n-placeholder="notes.fields.contentPlaceholder"
+              placeholder="اكتب ملاحظتك هنا..."
+              rows="6"
+            ></textarea>
+          </div>
+
+          <!-- Course + Tags -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" data-i18n="notes.fields.course">المادة (اختياري)</label>
+              <select class="form-select" id="noteCourse">
+                <option value="" data-i18n="notes.fields.noCourse">بدون مادة</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" data-i18n="notes.fields.tags">الوسوم (اختياري)</label>
+              <input 
+                type="text" 
+                class="form-input" 
+                id="noteTags"
+                data-i18n-placeholder="notes.fields.tagsPlaceholder"
+                placeholder="مثال: مهم, مراجعة"
+              >
+            </div>
+          </div>
+
+          <!-- Color + Pin -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" data-i18n="notes.fields.color">اللون</label>
+              <div class="notes__colors" id="noteColors">
+                <button type="button" class="notes__color active" data-color="#fef3c7" style="--color: #fef3c7;"></button>
+                <button type="button" class="notes__color" data-color="#dbeafe" style="--color: #dbeafe;"></button>
+                <button type="button" class="notes__color" data-color="#dcfce7" style="--color: #dcfce7;"></button>
+                <button type="button" class="notes__color" data-color="#fce7f3" style="--color: #fce7f3;"></button>
+                <button type="button" class="notes__color" data-color="#e0e7ff" style="--color: #e0e7ff;"></button>
+                <button type="button" class="notes__color" data-color="#f3e8ff" style="--color: #f3e8ff;"></button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" data-i18n="notes.fields.pin">تثبيت</label>
+              <label class="switch">
+                <input type="checkbox" id="notePinned">
+                <span class="switch__slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="dialog__actions">
+            <button type="button" class="btn btn-secondary" id="cancelNoteBtn" data-i18n="common.cancel">
+              إلغاء
+            </button>
+            <button type="submit" class="btn btn-primary" id="saveNoteBtn">
+              💾 <span data-i18n="common.save">حفظ</span>
+            </button>
+          </div>
+
+        </form>
+
+      </div>
+    </dialog>
+
+    <!-- ============ DELETE CONFIRM DIALOG ============ -->
+    <dialog class="dialog" id="deleteDialog">
+      <div class="dialog__content">
+        <div class="dialog__icon">⚠️</div>
+        <h2 class="dialog__title" data-i18n="notes.deleteTitle">حذف الملاحظة</h2>
+        <p class="dialog__text" data-i18n="notes.deleteText">
+          هل أنت متأكد من حذف هذه الملاحظة؟ لا يمكن التراجع.
+        </p>
+        <div class="dialog__actions">
+          <button class="btn btn-secondary" id="cancelDeleteBtn" data-i18n="common.cancel">إلغاء</button>
+          <button class="btn btn-danger" id="confirmDeleteBtn">
+            🗑️ <span data-i18n="common.delete">حذف</span>
+          </button>
+        </div>
+      </div>
+    </dialog>
+
+  </div>
+
+  <script src="js/main.js" type="module"></script>
+  <script src="js/modules/notes.js" type="module"></script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+/* ============================================
+   i18n — RTL / LTR Support
+   ============================================ */
+
+/* ---------- RTL (Arabic) ---------- */
+[dir="rtl"] {
+  text-align: right;
+}
+
+[dir="rtl"] .sidebar {
+  border-right: none;
+  border-left: 1px solid var(--border-primary);
+}
+
+[dir="rtl"] .header__search-icon {
+  left: auto;
+  right: var(--space-3);
+}
+
+[dir="rtl"] .header__search input {
+  padding-left: var(--space-4);
+  padding-right: var(--space-10);
+}
+
+[dir="rtl"] .stat-card::before {
+  right: auto;
+  left: 0;
+}
+
+[dir="rtl"] .quick-note {
+  border-right: none;
+  border-left: 3px solid var(--warning-500);
+}
+
+[dir="rtl"] .switch__slider::before {
+  right: 2px;
+  left: auto;
+}
+
+[dir="rtl"] .switch input:checked + .switch__slider::before {
+  transform: translateX(-20px);
+}
+
+/* ---------- LTR (English) ---------- */
+[dir="ltr"] {
+  text-align: left;
+}
+
+[dir="ltr"] .sidebar {
+  border-left: none;
+  border-right: 1px solid var(--border-primary);
+}
+
+[dir="ltr"] .header__search-icon {
+  right: auto;
+  left: var(--space-3);
+}
+
+[dir="ltr"] .header__search input {
+  padding-right: var(--space-4);
+  padding-left: var(--space-10);
+}
+
+[dir="ltr"] .switch__slider::before {
+  left: 2px;
+  right: auto;
+}
+
+[dir="ltr"] .switch input:checked + .switch__slider::before {
+  transform: translateX(20px);
+}
+
+/* ---------- Fonts per Language ---------- */
+[lang="en"] body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+[lang="ar"] body {
+  font-family: 'Tajawal', 'Inter', -apple-system, sans-serif;
+}

@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="StudentHub — GPA Calculator">
+  <title data-i18n="gpa.title">المعدل — StudentHub</title>
+  
+  <link rel="stylesheet" href="css/main.css">
+  
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#6366f1">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="StudentHub">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="assets/icons/icon-48.png">
+</head>
+<body>
+
+  <div class="app" id="app">
+
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar" id="sidebar">
+      
+      <div class="sidebar__logo">
+        <div class="sidebar__logo-icon">S</div>
+        <span class="sidebar__logo-text">StudentHub</span>
+      </div>
+
+     <nav class="sidebar__nav">
+  <a href="index.html" class="nav-item">
+    <span class="nav-item__icon">🏠</span>
+    <span class="nav-item__label" data-i18n="sidebar.home">الرئيسية</span>
+  </a>
+  <a href="courses.html" class="nav-item">
+    <span class="nav-item__icon">📚</span>
+    <span class="nav-item__label" data-i18n="sidebar.courses">المواد</span>
+  </a>
+  <a href="exams.html" class="nav-item">
+    <span class="nav-item__icon">📝</span>
+    <span class="nav-item__label" data-i18n="sidebar.exams">الامتحانات</span>
+  </a>
+  <a href="gpa.html" class="nav-item active">
+    <span class="nav-item__icon">📊</span>
+    <span class="nav-item__label" data-i18n="sidebar.gpa">المعدل</span>
+  </a>
+  <a href="timer.html" class="nav-item">
+    <span class="nav-item__icon">⏱️</span>
+    <span class="nav-item__label" data-i18n="sidebar.timer">جلسات الدراسة</span>
+  </a>
+  <a href="ai.html" class="nav-item">
+  <span class="nav-item__icon">🤖</span>
+  <span class="nav-item__label" data-i18n="sidebar.ai">المساعد الذكي</span>
+</a>
+  <a href="notes.html" class="nav-item">
+    <span class="nav-item__icon">📔</span>
+    <span class="nav-item__label" data-i18n="sidebar.notes">الملاحظات</span>
+  </a>
+  <a href="settings.html" class="nav-item">
+    <span class="nav-item__icon">⚙️</span>
+    <span class="nav-item__label" data-i18n="sidebar.settings">الإعدادات</span>
+  </a>
+</nav>
+
+      <div class="sidebar__footer">
+        <a href="#" class="nav-item">
+          <span class="nav-item__icon">🚪</span>
+          <span class="nav-item__label" data-i18n="sidebar.logout">تسجيل خروج</span>
+        </a>
+      </div>
+
+    </aside>
+
+    <!-- ============ HEADER ============ -->
+    <header class="header">
+      
+      <div class="header__left">
+        <button class="icon-btn" id="sidebarToggle" data-i18n-aria="header.menu" aria-label="القائمة">☰</button>
+        <div class="header__search">
+          <span class="header__search-icon">🔍</span>
+          <input 
+            type="search" 
+            id="globalSearch"
+            data-i18n-placeholder="header.search"
+            placeholder="ابحث..." 
+            aria-label="بحث"
+            autocomplete="off"
+          >
+          <div class="search-results" id="searchResults"></div>
+        </div>
+      </div>
+
+      <div class="header__right">
+        <button class="icon-btn" id="themeToggle" data-i18n-aria="header.theme" aria-label="تبديل الثيم">🌙</button>
+        <div class="notifications-wrapper" id="notificationsWrapper">
+          <button class="icon-btn" id="notificationsBtn" data-i18n-aria="header.notifications" aria-label="الإشعارات">
+            🔔
+            <span class="notifications-badge" id="notificationsBadge"></span>
+          </button>
+          <div class="notifications-dropdown" id="notificationsDropdown"></div>
+        </div>
+        <a href="settings.html" class="avatar" id="headerAvatar" title="الإعدادات">أ</a>
+      </div>
+
+    </header>
+
+    <!-- ============ MAIN ============ -->
+    <main class="main">
+      <div class="container" style="padding-top: var(--space-8); padding-bottom: var(--space-8);">
+        
+        <div class="gpa">
+
+          <!-- ============ HEADER ============ -->
+          <div class="gpa__header">
+            <div>
+              <h1 class="gpa__title">📊 <span data-i18n="gpa.title">حساب المعدل</span></h1>
+              <p class="gpa__subtitle" data-i18n="gpa.subtitle">
+                تابع معدلك التراكمي واحسب توقعك
+              </p>
+            </div>
+            <div class="gpa__header-actions">
+              <button class="btn btn-danger-outline" id="clearAllGradesBtn" title="حذف جميع العلامات">
+                <span>🗑️</span>
+                <span data-i18n="gpa.clearAll">حذف الكل</span>
+              </button>
+              <button class="btn btn-primary" id="addGradeBtn">
+                <span>➕</span>
+                <span data-i18n="gpa.addNew">إضافة علامة</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- ============ MAIN CARDS ============ -->
+          <div class="gpa__main-cards">
+
+            <div class="gpa__semester-selector">
+              <label class="gpa__semester-label">
+                🎓 <span data-i18n="gpa.semester.label">الفصل الحالي</span>
+              </label>
+              <select class="gpa__semester-select" id="semesterFilter">
+                <option value="all" data-i18n="gpa.semester.all">الكل (التراكمي)</option>
+                <option value="fall" data-i18n="gpa.semester.fall">🍂 الفصل الأول</option>
+                <option value="spring" data-i18n="gpa.semester.spring">🌸 الفصل الثاني</option>
+                <option value="summer" data-i18n="gpa.semester.summer">☀️ الفصل الصيفي</option>
+              </select>
+            </div>
+
+            <div class="gpa__dual-cards">
+
+              <div class="gpa__stat-card gpa__stat-card--cumulative">
+                <div class="gpa__stat-card__header">
+                  <span class="gpa__stat-card__icon">🎯</span>
+                  <span class="gpa__stat-card__label" data-i18n="gpa.cumulativeGpa">المعدل التراكمي</span>
+                </div>
+                <div class="gpa__stat-card__value" id="cumulativeValue">—</div>
+                <div class="gpa__stat-card__max" id="cumulativeMax"></div>
+                <div class="gpa__stat-card__progress">
+                  <div class="gpa__stat-card__progress-bar">
+                    <div class="gpa__stat-card__progress-fill" id="cumulativeProgress"></div>
+                  </div>
+                </div>
+                <div class="gpa__stat-card__status" id="cumulativeStatus"></div>
+                <div class="gpa__stat-card__meta" id="cumulativeMeta"></div>
+              </div>
+
+              <div class="gpa__stat-card gpa__stat-card--semester">
+                <div class="gpa__stat-card__header">
+                  <span class="gpa__stat-card__icon">📊</span>
+                  <span class="gpa__stat-card__label" data-i18n="gpa.semesterGpa">المعدل الفصلي</span>
+                </div>
+                <div class="gpa__stat-card__value" id="semesterValue">—</div>
+                <div class="gpa__stat-card__max" id="semesterMax"></div>
+                <div class="gpa__stat-card__progress">
+                  <div class="gpa__stat-card__progress-bar">
+                    <div class="gpa__stat-card__progress-fill" id="semesterProgress"></div>
+                  </div>
+                </div>
+                <div class="gpa__stat-card__status" id="semesterStatus"></div>
+                <div class="gpa__stat-card__meta" id="semesterMeta"></div>
+              </div>
+
+            </div>
+
+            <div class="gpa__quick-stats-row">
+              <div class="gpa__quick-stat">
+                <div class="gpa__quick-stat-label" data-i18n="gpa.coursesCount">عدد المواد</div>
+                <div class="gpa__quick-stat-value" id="coursesCount">0</div>
+              </div>
+              <div class="gpa__quick-stat">
+                <div class="gpa__quick-stat-label" data-i18n="gpa.totalCredits">إجمالي الساعات</div>
+                <div class="gpa__quick-stat-value" id="totalCredits">0</div>
+              </div>
+              <div class="gpa__quick-stat">
+                <div class="gpa__quick-stat-label" data-i18n="gpa.highestGrade">أعلى علامة</div>
+                <div class="gpa__quick-stat-value" id="highestGrade">—</div>
+              </div>
+              <div class="gpa__quick-stat">
+                <div class="gpa__quick-stat-label" data-i18n="gpa.lowestGrade">أقل علامة</div>
+                <div class="gpa__quick-stat-value" id="lowestGrade">—</div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ============ TOOLBAR ============ -->
+          <div class="gpa__toolbar">
+            <div class="gpa__search">
+              <span class="gpa__search-icon">🔍</span>
+              <input 
+                type="search" 
+                class="gpa__search-input" 
+                id="gradeSearch"
+                data-i18n-placeholder="gpa.searchPlaceholder"
+                placeholder="ابحث عن مادة..."
+              >
+            </div>
+            <div class="gpa__view-toggle">
+              <button class="gpa__view-btn active" data-view="list" id="viewList" title="List">
+                📋 <span data-i18n="gpa.listView">قائمة</span>
+              </button>
+              <button class="gpa__view-btn" data-view="chart" id="viewChart" title="Chart">
+                📊 <span data-i18n="gpa.chartView">رسم بياني</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- ============ GRADE LIST VIEW ============ -->
+          <div class="gpa__list" id="gpaList"></div>
+
+          <!-- ============ CHART VIEW ============ -->
+          <div class="gpa__chart" id="gpaChart" style="display: none;">
+            <div class="gpa-chart-wrapper">
+              
+              <div class="gpa-chart-side">
+                
+                <div class="gpa-chart-donut">
+                  <svg viewBox="0 0 200 200" class="gpa-chart-donut__svg">
+                    <defs>
+                      <linearGradient id="donutGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#a78bfa" />
+                        <stop offset="100%" stop-color="#8b5cf6" />
+                      </linearGradient>
+                    </defs>
+                    
+                    <circle
+                      class="gpa-chart-donut__bg"
+                      cx="100" cy="100" r="80"
+                      fill="none"
+                      stroke="var(--bg-tertiary)"
+                      stroke-width="16"
+                    ></circle>
+                    
+                    <circle
+                      class="gpa-chart-donut__progress"
+                      id="donutProgress"
+                      cx="100" cy="100" r="80"
+                      fill="none"
+                      stroke="url(#donutGradient)"
+                      stroke-width="16"
+                      stroke-linecap="round"
+                      stroke-dasharray="502.65"
+                      stroke-dashoffset="502.65"
+                      transform="rotate(-90 100 100)"
+                    ></circle>
+                  </svg>
+                  
+                  <div class="gpa-chart-donut__center">
+                    <div class="gpa-chart-donut__value" id="donutValue">—</div>
+                    <div class="gpa-chart-donut__label" data-i18n="gpa.chart.donutLabel">المعدل</div>
+                  </div>
+                </div>
+                
+                <div class="gpa-chart-summary">
+                  <div class="gpa-chart-summary__item">
+                    <div class="gpa-chart-summary__label" data-i18n="gpa.chart.target">🎯 الهدف</div>
+                    <div class="gpa-chart-summary__value" id="chartTarget">—</div>
+                  </div>
+                  <div class="gpa-chart-summary__item">
+                    <div class="gpa-chart-summary__label" data-i18n="gpa.chart.diff">📈 الفرق</div>
+                    <div class="gpa-chart-summary__value" id="chartDiff">—</div>
+                  </div>
+                </div>
+                
+                <div class="gpa-chart-legend">
+                  <div class="gpa-chart-legend__item">
+                    <span class="gpa-chart-legend__dot" style="background:#10b981;"></span>
+                    <span data-i18n="gpa.chart.excellent">ممتاز (90+)</span>
+                  </div>
+                  <div class="gpa-chart-legend__item">
+                    <span class="gpa-chart-legend__dot" style="background:#3b82f6;"></span>
+                    <span data-i18n="gpa.chart.good">جيد (80-89)</span>
+                  </div>
+                  <div class="gpa-chart-legend__item">
+                    <span class="gpa-chart-legend__dot" style="background:#f59e0b;"></span>
+                    <span data-i18n="gpa.chart.average">متوسط (70-79)</span>
+                  </div>
+                  <div class="gpa-chart-legend__item">
+                    <span class="gpa-chart-legend__dot" style="background:#ef4444;"></span>
+                    <span data-i18n="gpa.chart.weak">ضعيف (&lt;70)</span>
+                  </div>
+                </div>
+                
+              </div>
+              
+              <div class="gpa-chart-side">
+                
+                <div class="gpa-chart-section">
+                  <h3 class="gpa-chart-section__title">
+                    🏆 <span data-i18n="gpa.chart.topTitle">أعلى المواد</span>
+                  </h3>
+                  <div class="gpa-chart-list" id="topCoursesList"></div>
+                </div>
+                
+                <div class="gpa-chart-section gpa-chart-section--warning">
+                  <h3 class="gpa-chart-section__title">
+                    ⚠️ <span data-i18n="gpa.chart.bottomTitle">تحتاج تحسين</span>
+                  </h3>
+                  <div class="gpa-chart-list" id="bottomCoursesList"></div>
+                </div>
+                
+              </div>
+              
+            </div>
+          </div>
+<!-- ============ SEMESTER COMPARISON ============ -->
+<div class="gpa__comparison" id="gpaComparison">
+  <div class="card">
+    <div class="card__header">
+      <h2 class="card__title">📈 <span data-i18n="gpa.comparison.title">تطور المعدل عبر الفصول</span></h2>
+    </div>
+    <div class="card__body">
+      
+      <!-- Chart Container -->
+      <div class="gpa__line-chart" id="semesterLineChart">
+        <!-- SVG will be rendered here -->
+      </div>
+
+      <!-- Semester Stats Cards -->
+      <div class="gpa__semester-stats" id="semesterStats">
+        <!-- Rendered by JS -->
+      </div>
+
+      <!-- Summary -->
+      <div class="gpa__comparison-summary" id="comparisonSummary">
+        <!-- Rendered by JS -->
+      </div>
+
+    </div>
+  </div>
+</div>
+          <!-- ============ EMPTY STATE ============ -->
+          <div class="empty-state" id="gpaEmpty" style="display: none;">
+            <div class="empty-state__icon">📊</div>
+            <h3 class="empty-state__title" data-i18n="gpa.emptyTitle">لا توجد علامات بعد</h3>
+            <p class="empty-state__text" data-i18n="gpa.emptyText">
+              ابدأ بإضافة أول علامة لحساب معدلك
+            </p>
+            <button class="btn btn-primary" id="addFirstGradeBtn" style="margin-top: var(--space-4);">
+              <span>➕</span>
+              <span data-i18n="gpa.addNew">إضافة علامة</span>
+            </button>
+          </div>
+
+          <!-- ============ WHAT-IF CALCULATOR ============ -->
+          <div class="card gpa__whatif">
+            <div class="card__header">
+              <h2 class="card__title">🎯 <span data-i18n="gpa.whatIf">ماذا لو؟</span></h2>
+            </div>
+            <div class="card__body">
+              <p class="gpa__whatif-text" data-i18n="gpa.whatIfText">
+                اكتشف العلامات التي تحتاجها للوصول إلى معدل معين
+              </p>
+              
+              <div class="gpa__whatif-inputs">
+                <div class="form-group">
+                  <label class="form-label" data-i18n="gpa.targetGpa">المعدل المستهدف</label>
+                  <input type="number" class="form-input" id="targetGpa" step="0.01">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" data-i18n="gpa.remainingCredits">عدد المواد المتبقية</label>
+                  <input type="number" class="form-input" id="remainingCredits" value="10">
+                </div>
+                <button class="btn btn-primary" id="calculateWhatIf">
+                  🔮 <span data-i18n="gpa.calculate">احسب</span>
+                </button>
+              </div>
+
+              <div class="gpa__whatif-result" id="whatIfResult" style="display: none;"></div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+
+    <!-- ============ ADD/EDIT GRADE DIALOG ============ -->
+    <dialog class="dialog" id="gradeDialog">
+      <div class="dialog__content">
+        
+        <div class="dialog__header">
+          <h2 class="dialog__title" id="gradeDialogTitle" data-i18n="gpa.addNew">
+            إضافة علامة
+          </h2>
+          <button class="icon-btn" id="closeDialogBtn" aria-label="إغلاق">✖</button>
+        </div>
+
+        <form id="gradeForm" class="dialog__form">
+          
+          <div class="form-group">
+            <label class="form-label">
+              <span data-i18n="gpa.fields.name">اسم المادة</span>
+              <span class="required">*</span>
+            </label>
+            <input 
+              type="text" 
+              class="form-input" 
+              id="gradeName"
+              data-i18n-placeholder="gpa.fields.namePlaceholder"
+              placeholder="مثال: رياضيات 1"
+              required
+            >
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">
+                <span data-i18n="gpa.fields.grade">العلامة</span>
+                <span class="required">*</span>
+              </label>
+              <input 
+                type="number" 
+                class="form-input" 
+                id="gradeValue"
+                min="0" 
+                step="0.01"
+                required
+              >
+              <div class="form-hint" id="gradeMaxHint"></div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">
+                <span data-i18n="gpa.fields.credits">عدد الساعات</span>
+                <span class="form-hint-inline" data-i18n="gpa.optional">(اختياري)</span>
+              </label>
+              <input 
+                type="number" 
+                class="form-input" 
+                id="gradeCredits"
+                min="1" 
+                max="10"
+                data-i18n-placeholder="gpa.fields.creditsPlaceholder"
+                placeholder="اتركه فارغاً للنظام الحكومي"
+              >
+              <div class="form-hint" data-i18n="gpa.creditsHint">
+                اتركه فارغاً إذا كانت جامعتك بدون نظام ساعات
+              </div>
+            </div>
+          </div>
+
+          <!-- 🎓 Semester Selector -->
+          <div class="form-group">
+            <label class="form-label" data-i18n="gpa.fields.semester">
+              🎓 الفصل الدراسي
+            </label>
+            <div class="semester-picker">
+              <label class="semester-option">
+                <input type="radio" name="gradeSemester" value="fall" checked>
+                <span class="semester-option__label">🍂 <span data-i18n="gpa.semester.fall">الفصل الأول</span></span>
+              </label>
+              <label class="semester-option">
+                <input type="radio" name="gradeSemester" value="spring">
+                <span class="semester-option__label">🌸 <span data-i18n="gpa.semester.spring">الفصل الثاني</span></span>
+              </label>
+              <label class="semester-option">
+                <input type="radio" name="gradeSemester" value="summer">
+                <span class="semester-option__label">☀️ <span data-i18n="gpa.semester.summer">الفصل الصيفي</span></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="dialog__actions">
+            <button type="button" class="btn btn-secondary" id="cancelGradeBtn" data-i18n="common.cancel">
+              إلغاء
+            </button>
+            <button type="submit" class="btn btn-primary" id="saveGradeBtn">
+              💾 <span data-i18n="common.save">حفظ</span>
+            </button>
+          </div>
+
+        </form>
+
+      </div>
+    </dialog>
+
+    <!-- ============ DELETE CONFIRM DIALOG ============ -->
+    <dialog class="dialog" id="deleteDialog">
+      <div class="dialog__content">
+        <div class="dialog__icon">⚠️</div>
+        <h2 class="dialog__title" data-i18n="gpa.deleteTitle">حذف العلامة</h2>
+        <p class="dialog__text" data-i18n="gpa.deleteText">
+          هل أنت متأكد من حذف هذه العلامة؟ لا يمكن التراجع.
+        </p>
+        <div class="dialog__actions">
+          <button class="btn btn-secondary" id="cancelDeleteBtn" data-i18n="common.cancel">إلغاء</button>
+          <button class="btn btn-danger" id="confirmDeleteBtn">
+            🗑️ <span data-i18n="common.delete">حذف</span>
+          </button>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- ============ CLEAR ALL CONFIRM DIALOG ============ -->
+    <dialog class="dialog" id="clearAllDialog">
+      <div class="dialog__content">
+        <div class="dialog__icon">⚠️</div>
+        <h2 class="dialog__title" data-i18n="gpa.clearAllTitle">
+          حذف جميع العلامات
+        </h2>
+        <p class="dialog__text" id="clearAllMessage">
+          هذا الإجراء لا يمكن التراجع عنه.
+        </p>
+        <p class="dialog__warning">
+          <span data-i18n="gpa.clearAllConfirmText">للتأكيد، اكتب:</span>
+          <strong>DELETE</strong>
+        </p>
+        <input 
+          type="text" 
+          class="form-input" 
+          id="clearAllConfirmInput"
+          placeholder="DELETE"
+          autocomplete="off"
+        >
+        <div class="dialog__actions">
+          <button class="btn btn-secondary" id="cancelClearAllBtn" data-i18n="common.cancel">
+            إلغاء
+          </button>
+          <button class="btn btn-danger" id="confirmClearAllBtn" disabled>
+            🗑️ <span data-i18n="gpa.clearAll">حذف الكل</span>
+          </button>
+        </div>
+      </div>
+    </dialog>
+
+  </div>
+
+  <script src="js/main.js" type="module"></script>
+  <script src="js/modules/gpa.js" type="module"></script>
+</body>
+</html>

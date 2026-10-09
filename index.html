@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="StudentHub — منصة الطالب الجامعي">
+  <title>StudentHub — منصة الطالب الجامعي</title>
+  
+  <link rel="stylesheet" href="css/main.css">
+  
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#6366f1">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="StudentHub">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="assets/icons/icon-48.png">
+</head>
+<body>
+
+  <div class="app" id="app">
+
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar" id="sidebar">
+      
+      <div class="sidebar__logo">
+        <div class="sidebar__logo-icon">S</div>
+        <span class="sidebar__logo-text">StudentHub</span>
+      </div>
+
+      <nav class="sidebar__nav">
+        <a href="index.html" class="nav-item active">
+          <span class="nav-item__icon">🏠</span>
+          <span class="nav-item__label" data-i18n="sidebar.home">الرئيسية</span>
+        </a>
+        <a href="courses.html" class="nav-item">
+          <span class="nav-item__icon">📚</span>
+          <span class="nav-item__label" data-i18n="sidebar.courses">المواد</span>
+        </a>
+        <a href="exams.html" class="nav-item">
+          <span class="nav-item__icon">📝</span>
+          <span class="nav-item__label" data-i18n="sidebar.exams">الامتحانات</span>
+        </a>
+        <a href="gpa.html" class="nav-item">
+          <span class="nav-item__icon">📊</span>
+          <span class="nav-item__label" data-i18n="sidebar.gpa">المعدل</span>
+        </a>
+        <a href="timer.html" class="nav-item">
+          <span class="nav-item__icon">⏱️</span>
+          <span class="nav-item__label" data-i18n="sidebar.timer">جلسات الدراسة</span>
+        </a>
+        <a href="ai.html" class="nav-item">
+  <span class="nav-item__icon">🤖</span>
+  <span class="nav-item__label" data-i18n="sidebar.ai">المساعد الذكي</span>
+</a>
+        <a href="notes.html" class="nav-item">
+          <span class="nav-item__icon">📔</span>
+          <span class="nav-item__label" data-i18n="sidebar.notes">الملاحظات</span>
+        </a>
+        <a href="settings.html" class="nav-item">
+          <span class="nav-item__icon">⚙️</span>
+          <span class="nav-item__label" data-i18n="sidebar.settings">الإعدادات</span>
+        </a>
+      </nav>
+
+      <div class="sidebar__footer">
+        <a href="#" class="nav-item">
+          <span class="nav-item__icon">🚪</span>
+          <span class="nav-item__label" data-i18n="sidebar.logout">تسجيل خروج</span>
+        </a>
+      </div>
+
+    </aside>
+
+    <!-- ============ HEADER ============ -->
+    <header class="header">
+      
+      <div class="header__left">
+        <button class="icon-btn" id="sidebarToggle" data-i18n-aria="header.menu" aria-label="القائمة">☰</button>
+        <div class="header__search">
+          <span class="header__search-icon">🔍</span>
+          <input 
+            type="search" 
+            id="globalSearch"
+            data-i18n-placeholder="header.search"
+            placeholder="ابحث..." 
+            aria-label="بحث"
+            autocomplete="off"
+          >
+          <div class="search-results" id="searchResults"></div>
+        </div>
+      </div>
+
+      <div class="header__right">
+        <button class="icon-btn install-btn" id="installBtn" style="display: none;" title="تثبيت التطبيق">
+          📲
+        </button>
+        
+        <button class="icon-btn" id="themeToggle" data-i18n-aria="header.theme" aria-label="تبديل الثيم">🌙</button>
+        
+        <div class="notifications-wrapper" id="notificationsWrapper">
+          <button class="icon-btn" id="notificationsBtn" data-i18n-aria="header.notifications" aria-label="الإشعارات">
+            🔔
+            <span class="notifications-badge" id="notificationsBadge"></span>
+          </button>
+          <div class="notifications-dropdown" id="notificationsDropdown"></div>
+        </div>
+        
+        <a href="settings.html" class="avatar" id="headerAvatar" title="الإعدادات">أ</a>
+      </div>
+
+    </header>
+
+    <!-- ============ MAIN ============ -->
+    <main class="main">
+      <div class="container" style="padding-top: var(--space-8); padding-bottom: var(--space-8);">
+        
+        <div class="dashboard">
+
+          <section class="dashboard__welcome">
+            <div>
+              <h1 class="dashboard__greeting" id="dashboardGreeting" data-i18n="dashboard.welcomeTitle">
+                أهلاً بك في StudentHub 👋
+              </h1>
+              <p class="dashboard__subtitle" id="dashboardSubtitle" data-i18n="dashboard.welcomeSubtitle">
+                تابع مهامك وموادك الدراسية من مكان واحد
+              </p>
+            </div>
+            <div class="dashboard__date" id="currentDate">
+              <span data-i18n="dashboard.loading">جار التحميل...</span>
+            </div>
+          </section>
+
+          <section class="dashboard__stats">
+            
+            <a href="courses.html" class="stat-card stat-card--info stat-card--clickable" title="المواد">
+              <div class="stat-card__header">
+                <span class="stat-card__label" data-i18n="dashboard.stats.courses">المواد</span>
+                <div class="stat-card__icon">📚</div>
+              </div>
+              <div class="stat-card__value" id="statCourses">0</div>
+              <div class="stat-card__change" id="statCoursesChange"></div>
+              <div class="stat-card__arrow">←</div>
+            </a>
+
+            <a href="exams.html" class="stat-card stat-card--warning stat-card--clickable" title="الامتحانات">
+              <div class="stat-card__header">
+                <span class="stat-card__label" data-i18n="dashboard.stats.exams">الامتحانات القادمة</span>
+                <div class="stat-card__icon">📝</div>
+              </div>
+              <div class="stat-card__value" id="statExams">0</div>
+              <div class="stat-card__change" id="statExamsChange"></div>
+              <div class="stat-card__arrow">←</div>
+            </a>
+
+            <a href="gpa.html" class="stat-card stat-card--success stat-card--clickable" title="المعدل">
+              <div class="stat-card__header">
+                <span class="stat-card__label" data-i18n="dashboard.stats.gpa">المعدل الحالي</span>
+                <div class="stat-card__icon">📊</div>
+              </div>
+              <div class="stat-card__value" id="statGpa">—</div>
+              <div class="stat-card__change" id="statGpaChange"></div>
+              <div class="stat-card__arrow">←</div>
+            </a>
+
+            <a href="notes.html" class="stat-card stat-card--danger stat-card--clickable" title="الملاحظات">
+              <div class="stat-card__header">
+                <span class="stat-card__label" data-i18n="dashboard.stats.notes">الملاحظات</span>
+                <div class="stat-card__icon">📔</div>
+              </div>
+              <div class="stat-card__value" id="statNotes">0</div>
+              <div class="stat-card__change" id="statNotesChange"></div>
+              <div class="stat-card__arrow">←</div>
+            </a>
+
+          </section>
+
+          <section class="dashboard__widgets">
+
+            <div class="card">
+              <div class="card__header">
+                <h2 class="card__title" data-i18n="dashboard.widgets.upcomingExams">📝 الامتحانات القادمة</h2>
+                <a href="exams.html" class="btn btn-ghost btn-sm" data-i18n="dashboard.widgets.viewAll">عرض الكل</a>
+              </div>
+              <div class="card__body" id="upcomingExamsWidget"></div>
+            </div>
+
+            <div class="card">
+              <div class="card__header">
+                <h2 class="card__title" data-i18n="dashboard.widgets.quickNotes">📔 ملاحظات سريعة</h2>
+                <a href="notes.html" class="btn btn-ghost btn-sm">➕</a>
+              </div>
+              <div class="card__body" id="quickNotesWidget"></div>
+            </div>
+
+          </section>
+
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <script src="js/main.js" type="module"></script>
+</body>
+</html>

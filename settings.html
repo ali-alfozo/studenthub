@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="StudentHub — Settings">
+  <title data-i18n="settings.title">الإعدادات — StudentHub</title>
+  
+  <link rel="stylesheet" href="css/main.css">
+  
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#6366f1">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="StudentHub">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="assets/icons/icon-48.png">
+</head>
+<body>
+
+  <div class="app" id="app">
+
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar" id="sidebar">
+      
+      <div class="sidebar__logo">
+        <div class="sidebar__logo-icon">S</div>
+        <span class="sidebar__logo-text">StudentHub</span>
+      </div>
+<nav class="sidebar__nav">
+  <a href="index.html" class="nav-item">
+    <span class="nav-item__icon">🏠</span>
+    <span class="nav-item__label" data-i18n="sidebar.home">الرئيسية</span>
+  </a>
+  <a href="courses.html" class="nav-item">
+    <span class="nav-item__icon">📚</span>
+    <span class="nav-item__label" data-i18n="sidebar.courses">المواد</span>
+  </a>
+  <a href="exams.html" class="nav-item">
+    <span class="nav-item__icon">📝</span>
+    <span class="nav-item__label" data-i18n="sidebar.exams">الامتحانات</span>
+  </a>
+  <a href="gpa.html" class="nav-item">
+    <span class="nav-item__icon">📊</span>
+    <span class="nav-item__label" data-i18n="sidebar.gpa">المعدل</span>
+  </a>
+  <a href="timer.html" class="nav-item">
+    <span class="nav-item__icon">⏱️</span>
+    <span class="nav-item__label" data-i18n="sidebar.timer">جلسات الدراسة</span>
+  </a>
+  <a href="ai.html" class="nav-item">
+  <span class="nav-item__icon">🤖</span>
+  <span class="nav-item__label" data-i18n="sidebar.ai">المساعد الذكي</span>
+</a>
+  <a href="notes.html" class="nav-item">
+    <span class="nav-item__icon">📔</span>
+    <span class="nav-item__label" data-i18n="sidebar.notes">الملاحظات</span>
+  </a>
+  <a href="settings.html" class="nav-item active">
+    <span class="nav-item__icon">⚙️</span>
+    <span class="nav-item__label" data-i18n="sidebar.settings">الإعدادات</span>
+  </a>
+</nav>
+
+      <div class="sidebar__footer">
+        <a href="#" class="nav-item">
+          <span class="nav-item__icon">🚪</span>
+          <span class="nav-item__label" data-i18n="sidebar.logout">تسجيل خروج</span>
+        </a>
+      </div>
+
+    </aside>
+
+    <!-- ============ HEADER ============ -->
+    <header class="header">
+      
+      <div class="header__left">
+        <button class="icon-btn" id="sidebarToggle" data-i18n-aria="header.menu" aria-label="القائمة">☰</button>
+        <div class="header__search">
+  <span class="header__search-icon">🔍</span>
+  <input 
+    type="search" 
+    id="globalSearch"
+    data-i18n-placeholder="header.search"
+    placeholder="ابحث..." 
+    aria-label="بحث"
+    autocomplete="off"
+  >
+  <div class="search-results" id="searchResults"></div>
+</div>
+      </div>
+
+      <div class="header__right">
+        <button class="icon-btn" id="themeToggle" data-i18n-aria="header.theme" aria-label="تبديل الثيم">🌙</button>
+      <div class="notifications-wrapper" id="notificationsWrapper">
+  <button class="icon-btn" id="notificationsBtn" data-i18n-aria="header.notifications" aria-label="الإشعارات">
+    🔔
+    <span class="notifications-badge" id="notificationsBadge"></span>
+  </button>
+  <div class="notifications-dropdown" id="notificationsDropdown">
+    <!-- سيتم تعبئته من JS -->
+  </div>
+</div>
+        <a href="settings.html" class="avatar" id="headerAvatar" title="الإعدادات">أ</a>
+      </div>
+
+    </header>
+
+    <!-- ============ MAIN ============ -->
+    <main class="main">
+      <div class="container" style="padding-top: var(--space-8); padding-bottom: var(--space-8);">
+        
+        <div class="settings">
+
+          <!-- ============ HEADER ============ -->
+          <div class="settings__header">
+            <h1 class="settings__title" data-i18n="settings.title">⚙️ الإعدادات</h1>
+            <p class="settings__subtitle" data-i18n="settings.subtitle">خصص تجربتك في StudentHub</p>
+          </div>
+
+          <!-- ============ LAYOUT ============ -->
+          <div class="settings__layout">
+
+            <!-- Sidebar Navigation -->
+            <aside class="settings__nav">
+              <a href="#profile" class="settings__nav-item active" data-section="profile">
+                <span>👤</span>
+                <span data-i18n="settings.profile.title">الملف الشخصي</span>
+              </a>
+              <a href="#language" class="settings__nav-item" data-section="language">
+                <span>🌍</span>
+                <span data-i18n="settings.language.title">اللغة</span>
+              </a>
+              <a href="#appearance" class="settings__nav-item" data-section="appearance">
+                <span>🎨</span>
+                <span data-i18n="settings.appearance.title">المظهر</span>
+              </a>
+              <a href="#academic" class="settings__nav-item" data-section="academic">
+                <span>🎓</span>
+                <span data-i18n="settings.academic.title">أكاديمي</span>
+              </a>
+              <a href="#notifications" class="settings__nav-item" data-section="notifications">
+                <span>🔔</span>
+                <span data-i18n="settings.notifications.title">الإشعارات</span>
+              </a>
+              <a href="#calendar" class="settings__nav-item" data-section="calendar">
+                <span>📅</span>
+                <span data-i18n="settings.calendar.title">التقويم</span>
+              </a>
+              <a href="#data" class="settings__nav-item" data-section="data">
+                <span>💾</span>
+                <span data-i18n="settings.data.title">البيانات</span>
+              </a>
+              <a href="#about" class="settings__nav-item" data-section="about">
+                <span>ℹ️</span>
+                <span data-i18n="settings.about.title">عن التطبيق</span>
+              </a>
+            </aside>
+
+            <!-- Content -->
+            <div class="settings__content">
+
+              <!-- ============ PROFILE ============ -->
+              <section id="profile" class="settings__section">
+                <div class="card">
+                  <div class="card__header">
+                    <h2 class="card__title">👤 <span data-i18n="settings.profile.title">الملف الشخصي</span></h2>
+                  </div>
+                  <div class="card__body">
+
+                    <!-- Avatar -->
+                    <div class="settings__avatar-section">
+                      <div class="avatar avatar--lg" id="profileAvatar">أ</div>
+                      <div class="settings__avatar-actions">
+                        <button class="btn btn-secondary btn-sm" id="uploadAvatarBtn">
+                          📷 <span data-i18n="settings.profile.changePhoto">تغيير الصورة</span>
+                        </button>
+                        <button class="btn btn-ghost btn-sm" id="removeAvatarBtn" style="display: none;">
+                          🗑️ <span data-i18n="settings.profile.removePhoto">حذف الصورة</span>
+                        </button>
+                      </div>
+                      <input type="file" id="avatarInput" accept="image/*" hidden>
+                    </div>
+
+                    <!-- Name -->
+                    <div class="form-group">
+                      <label class="form-label" data-i18n="settings.profile.name">الاسم</label>
+                      <input 
+                        type="text" 
+                        class="form-input" 
+                        id="profileName"
+                        placeholder="أدخل اسمك"
+                      >
+                    </div>
+
+                    <!-- University + Major -->
+                    <div class="form-row">
+                      <div class="form-group">
+                        <label class="form-label" data-i18n="settings.profile.university">الجامعة</label>
+                        <input 
+                          type="text" 
+                          class="form-input" 
+                          id="profileUniversity"
+                          placeholder="اسم الجامعة"
+                        >
+                      </div>
+
+                      <div class="form-group">
+                        <label class="form-label" data-i18n="settings.profile.major">الاختصاص</label>
+                        <input 
+                          type="text" 
+                          class="form-input" 
+                          id="profileMajor"
+                          placeholder="التخصص"
+                        >
+                      </div>
+                    </div>
+
+                    <!-- Year -->
+                    <div class="form-group">
+                      <label class="form-label" data-i18n="settings.profile.year">السنة الدراسية</label>
+                      <select class="form-select" id="profileYear">
+                        <option value="1">السنة الأولى</option>
+                        <option value="2">السنة الثانية</option>
+                        <option value="3">السنة الثالثة</option>
+                        <option value="4">السنة الرابعة</option>
+                        <option value="5">السنة الخامسة</option>
+                      </select>
+                    </div>
+
+                  </div>
+                </div>
+              </section>
+
+              <!-- ============ LANGUAGE ============ -->
+              <section id="language" class="settings__section">
+                <div class="card">
+                  <div class="card__header">
+                    <h2 class="card__title">🌍 <span data-i18n="settings.language.title">اللغة</span></h2>
+                  </div>
+                  <div class="card__body">
+
+                    <div class="settings__options">
+                      <label class="settings__option">
+                        <input type="radio" name="language" value="ar" checked>
+                        <span class="settings__option-label">🇸🇾 <span data-i18n="settings.language.arabic">العربية</span></span>
+                      </label>
+
+                      <label class="settings__option">
+                        <input type="radio" name="language" value="en">
+                        <span class="settings__option-label">🇬🇧 <span data-i18n="settings.language.english">الإنجليزية</span></span>
+                      </label>
+                    </div>
+
+                  </div>
+                </div>
+              </section>
+
+              <!-- ============ APPEARANCE ============ -->
+              <section id="appearance" class="settings__section">
+                <div class="card">
+                  <div class="card__header">
+                    <h2 class="card__title">🎨 <span data-i18n="settings.appearance.title">المظهر</span></h2>
+                  </div>
+                  <div class="card__body">
+
+                    <!-- Theme -->
+                    <div class="form-group">
+                      <label class="form-label" data-i18n="settings.appearance.theme">الثيم</label>
+                      <div class="settings__options">
+                        <label class="settings__option">
+                          <input type="radio" name="theme" value="light" checked>
+                          <span class="settings__option-label">☀️ <span data-i18n="settings.appearance.light">فاتح</span></span>
+                        </label>
+                        <label class="settings__option">
+                          <input type="radio" name="theme" value="dark">
+                          <span class="settings__option-label">🌙 <span data-i18n="settings.appearance.dark">داكن</span></span>
+                        </label>
+                        <label class="settings__option">
+                          <input type="radio" name="theme" value="auto">
+                          <span class="settings__option-label">🔄 <span data-i18n="settings.appearance.auto">تلقائي</span></span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <!-- Font Size -->
+                    <div class="form-group">
+                      <label class="form-label" data-i18n="settings.appearance.fontSize">حجم الخط</label>
+                      <div class="settings__options">
+                        <label class="settings__option">
+                          <input type="radio" name="fontSize" value="small">
+                          <span class="settings__option-label">🔤 <span data-i18n="settings.appearance.small">صغير</span></span>
+                        </label>
+                        <label class="settings__option">
+                          <input type="radio" name="fontSize" value="medium" checked>
+                          <span class="settings__option-label">🔤 <span data-i18n="settings.appearance.medium">متوسط</span></span>
+                        </label>
+                        <label class="settings__option">
+                          <input type="radio" name="fontSize" value="large">
+                          <span class="settings__option-label">🔤 <span data-i18n="settings.appearance.large">كبير</span></span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <!-- Primary Color -->
+                    <div class="form-group">
+                      <label class="form-label" data-i18n="settings.appearance.primaryColor">اللون الأساسي</label>
+                      <div class="settings__colors">
+                        <button class="settings__color active" data-color="indigo" style="--color: #6366f1;" title="Indigo"></button>
+                        <button class="settings__color" data-color="blue" style="--color: #3b82f6;" title="Blue"></button>
+                        <button class="settings__color" data-color="green" style="--color: #10b981;" title="Green"></button>
+                        <button class="settings__color" data-color="purple" style="--color: #a855f7;" title="Purple"></button>
+                        <button class="settings__color" data-color="red" style="--color: #ef4444;" title="Red"></button>
+                        <button class="settings__color" data-color="orange" style="--color: #f59e0b;" title="Orange"></button>
+                        <button class="settings__color" data-color="pink" style="--color: #ec4899;" title="Pink"></button>
+                        <button class="settings__color" data-color="cyan" style="--color: #06b6d4;" title="Cyan"></button>
+                        <button class="settings__color" data-color="yellow" style="--color: #eab308;" title="Yellow"></button>
+                        <button class="settings__color" data-color="teal" style="--color: #14b8a6;" title="Teal"></button>
+                        <button class="settings__color" data-color="rose" style="--color: #f43f5e;" title="Rose"></button>
+                        <button class="settings__color" data-color="amber" style="--color: #d97706;" title="Amber"></button>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </section>
+
+              <!-- ============ ACADEMIC ============ -->
+              <section id="academic" class="settings__section">
+                <div class="card">
+                  <div class="card__header">
+                    <h2 class="card__title">🎓 <span data-i18n="settings.academic.title">إعدادات أكاديمية</span></h2>
+                  </div>
+                  <div class="card__body">
+
+                    <!-- GPA System -->
+                    <div class="form-group">
+                      <label class="form-label" data-i18n="settings.academic.gpaSystem">نظام المعدل</label>
+                      <div class="settings__options">
+                        <label class="settings__option">
+                          <input type="radio" name="gpaSystem" value="100" checked>
+                          <span class="settings__option-label">
+                            <span data-i18n="settings.academic.gpa100">من 100 (حكومي)</span>
+                          </span>
+                        </label>
+                        <label class="settings__option">
+                          <input type="radio" name="gpaSystem" value="4">
+                          <span class="settings__option-label">
+                            <span data-i18n="settings.academic.gpa4">من 4 (خاص)</span>
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <!-- Study Hours -->
+                    <div class="form-group">
+                      <label class="form-label" data-i18n="settings.academic.studyHours">ساعات الدراسة المستهدفة يومياً</label>
+                      <input 
+                        type="number" 
+                        class="form-input" 
+                        id="studyHours"
+                        min="1" 
+                        max="12" 
+                        value="4"
+                      >
+                    </div>
+
+                  </div>
+                </div>
+              </section>
+
+              <!-- ============ NOTIFICATIONS ============ -->
+<section id="notifications" class="settings__section">
+  <div class="card">
+    <div class="card__header">
+      <h2 class="card__title">🔔 <span data-i18n="settings.notifications.title">الإشعارات</span></h2>
+    </div>
+    <div class="card__body">
+
+      <!-- Permission Status -->
+      <div class="settings__notif-status" id="notifStatus">
+        <!-- سيتم تعبئته من JS -->
+      </div>
+
+      <div class="settings__toggle">
+        <span data-i18n="settings.notifications.examNotifications">إشعارات الامتحانات</span>
+        <label class="switch">
+          <input type="checkbox" id="notifyExams" checked>
+          <span class="switch__slider"></span>
+        </label>
+      </div>
+
+      <div class="settings__toggle">
+        <span data-i18n="settings.notifications.taskNotifications">إشعارات المهام</span>
+        <label class="switch">
+          <input type="checkbox" id="notifyTasks" checked>
+          <span class="switch__slider"></span>
+        </label>
+      </div>
+
+      <!-- Test Notification Button -->
+      <div class="settings__notif-actions">
+        <button class="btn btn-secondary" id="enableNotificationsBtn">
+          🔔 <span data-i18n="settings.notifications.enable">تفعيل الإشعارات</span>
+        </button>
+        <button class="btn btn-primary" id="testNotificationBtn">
+          🧪 <span data-i18n="settings.notifications.test">إرسال إشعار تجريبي</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+              <!-- ============ CALENDAR ============ -->
+              <section id="calendar" class="settings__section">
+                <div class="card">
+                  <div class="card__header">
+                    <h2 class="card__title">📅 <span data-i18n="settings.calendar.title">إعدادات التقويم</span></h2>
+                  </div>
+                  <div class="card__body">
+
+                    <div class="form-group">
+                      <label class="form-label" data-i18n="settings.calendar.weekStart">بداية الأسبوع</label>
+                      <div class="settings__options">
+                        <label class="settings__option">
+                          <input type="radio" name="weekStart" value="saturday" checked>
+                          <span class="settings__option-label" data-i18n="settings.calendar.saturday">السبت</span>
+                        </label>
+                        <label class="settings__option">
+                          <input type="radio" name="weekStart" value="sunday">
+                          <span class="settings__option-label" data-i18n="settings.calendar.sunday">الأحد</span>
+                        </label>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </section>
+
+              <!-- ============ DATA ============ -->
+              <section id="data" class="settings__section">
+                <div class="card">
+                  <div class="card__header">
+                    <h2 class="card__title">💾 <span data-i18n="settings.data.title">البيانات</span></h2>
+                  </div>
+                  <div class="card__body">
+
+                    <div class="settings__actions">
+                      <button class="btn btn-secondary" id="exportData">
+                        📤 <span data-i18n="settings.data.export">تصدير البيانات</span>
+                      </button>
+                      <button class="btn btn-secondary" id="importData">
+                        📥 <span data-i18n="settings.data.import">استيراد البيانات</span>
+                      </button>
+                      <button class="btn btn-danger" id="deleteData">
+                        🗑️ <span data-i18n="settings.data.delete">حذف جميع البيانات</span>
+                      </button>
+                    </div>
+
+                  </div>
+                </div>
+              </section>
+
+              <!-- ============ ABOUT ============ -->
+              <section id="about" class="settings__section">
+                <div class="card">
+                  <div class="card__header">
+                    <h2 class="card__title">ℹ️ <span data-i18n="settings.about.title">عن التطبيق</span></h2>
+                  </div>
+                  <div class="card__body">
+                    <div class="settings__about">
+                      
+                      <h3 class="settings__about-name">StudentHub v1.0.0</h3>
+                      <p class="settings__about-tagline" data-i18n="settings.about.tagline">
+                        تم تطوير StudentHub بهدف تبسيط الحياة الجامعية وجمع الأدوات والخدمات التي يحتاجها الطالب في مكان واحد.
+                      </p>
+
+                      <div class="settings__about-divider"></div>
+
+                      <div class="settings__about-developer">
+                        <div class="settings__about-row">
+                          <span class="settings__about-label">👨‍💻 <span data-i18n="settings.about.developer">تطوير</span>:</span>
+                          <span class="settings__about-value" data-i18n="settings.about.developerName">علي الفوزو</span>
+                        </div>
+                        <div class="settings__about-role" data-i18n="settings.about.developerRole">Frontend Developer</div>
+                      </div>
+
+                      <div class="settings__about-row">
+                        <span class="settings__about-label">💼 LinkedIn:</span>
+                        <a 
+                          href="https://www.linkedin.com/in/ali-alfozo-834412400" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          class="settings__about-link"
+                          data-i18n="settings.about.linkedinName"
+                        >
+                          Ali Alfozo
+                        </a>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+
+    <!-- ============ DELETE DIALOG ============ -->
+    <dialog class="dialog" id="deleteDialog">
+      <div class="dialog__content">
+        <div class="dialog__icon">⚠️</div>
+        <h2 class="dialog__title" data-i18n="settings.data.deleteDialogTitle">
+          حذف جميع البيانات
+        </h2>
+        <p class="dialog__text" data-i18n="settings.data.deleteDialogText">
+          هذا الإجراء لا يمكن التراجع عنه. كل بياناتك راح تروح للأبد.
+        </p>
+        <p class="dialog__warning">
+          <span data-i18n="settings.data.deleteDialogConfirmText">للتأكيد، اكتب:</span>
+          <strong>DELETE</strong>
+        </p>
+        <input 
+          type="text" 
+          class="form-input" 
+          id="deleteConfirmInput"
+          placeholder="DELETE"
+          autocomplete="off"
+        >
+        <div class="dialog__actions">
+          <button class="btn btn-secondary" id="cancelDeleteBtn" data-i18n="settings.cancel">
+            إلغاء
+          </button>
+          <button class="btn btn-danger" id="confirmDeleteBtn" disabled>
+            🗑️ <span data-i18n="settings.data.delete">حذف جميع البيانات</span>
+          </button>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- ============ IMPORT PREVIEW DIALOG ============ -->
+    <dialog class="dialog" id="importDialog">
+      <div class="dialog__content">
+        <div class="dialog__icon">📥</div>
+        <h2 class="dialog__title" data-i18n="settings.data.importDialogTitle">
+          استيراد البيانات
+        </h2>
+        <p class="dialog__text" data-i18n="settings.data.importDialogText">
+          سيتم استبدال بياناتك الحالية بالبيانات الجديدة. هل أنت متأكد؟
+        </p>
+        <div class="dialog__preview" id="importPreview">
+          <!-- Preview content -->
+        </div>
+        <div class="dialog__actions">
+          <button class="btn btn-secondary" id="cancelImportBtn" data-i18n="settings.cancel">
+            إلغاء
+          </button>
+          <button class="btn btn-primary" id="confirmImportBtn">
+            📥 <span data-i18n="settings.data.import">استيراد</span>
+          </button>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- ============ FLOATING SAVE BAR ============ -->
+    <div class="save-bar" id="saveBar">
+      <div class="save-bar__text">
+        <span data-i18n="settings.unsavedChanges">لديك تغييرات غير محفوظة</span>
+      </div>
+      <div class="save-bar__actions">
+        <button class="btn btn-secondary btn-sm" id="discardBtn">
+          <span data-i18n="settings.discard">تجاهل</span>
+        </button>
+        <button class="btn btn-primary btn-sm" id="saveAllBtn">
+          💾 <span data-i18n="settings.saveAll">حفظ الكل</span>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="js/main.js" type="module"></script>
+  <script src="js/modules/settings.js" type="module"></script>
+</body>
+</html>
